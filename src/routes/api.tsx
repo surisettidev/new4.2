@@ -171,7 +171,13 @@ apiRoutes.get('/learning-guide', (c) => {
     }
   ]
   
-  return c.json(learningGuide)
+  // Return enhanced learning guide with progress tracking
+  return c.json({
+    modules: learningGuide,
+    totalEstimatedTime: "18-24 weeks",
+    skillLevels: ["Beginner", "Intermediate", "Advanced", "Professional"],
+    lastUpdated: new Date().toISOString()
+  })
 })
 
 // Get events data
@@ -296,14 +302,14 @@ apiRoutes.get('/language-pairs', (c) => {
   return c.json(languagePairs)
 })
 
-// Helper function to simulate AI response
+// Helper function to simulate AI response with enhanced Deke Shaw personality
 async function generateAIResponse(query: string, apiKey?: string): Promise<string> {
-  // This is a simplified implementation
+  // This is a simplified implementation with comprehensive Deke Shaw responses
   // In a real application, you would integrate with OpenAI API or another AI service
   
   const responses = {
     // Common cybersecurity queries and Deke Shaw style responses
-    'nmap': `*adjusts glasses analytically* 
+    'nmap': `*adjusts glasses analytically with that signature Deke focus* 
 
 Nmap is your digital reconnaissance tool - like having X-ray vision for networks. Here's the breakdown:
 
@@ -390,9 +396,216 @@ Remember: The goal is to understand vulnerabilities to better defend against the
 
 Want to explore any specific SQLi technique or defensive measures?`,
 
-    'default': `*adjusts position thoughtfully like Deke analyzing a problem*
+    'metasploit': `*leans forward with analytical intensity*
 
-Interesting question. Let me break this down for you:
+Metasploit - now we're talking serious penetration testing framework. Think of it as the ultimate Swiss Army knife for security professionals.
+
+**Core Components:**
+- **Exploits:** Code that takes advantage of vulnerabilities
+- **Payloads:** What runs after successful exploitation
+- **Auxiliaries:** Scanning and enumeration tools
+- **Encoders:** Evade detection systems
+
+**Essential Commands:**
+\`msfconsole\` - Main interface
+\`search [vulnerability]\` - Find exploits
+\`use [exploit/path]\` - Select exploit module
+\`show options\` - View required parameters
+\`set RHOSTS [target]\` - Set target
+
+**Safe Practice Environment:**
+- Use Metasploitable 2/3 VMs (purposely vulnerable)
+- Set up isolated lab networks
+- Practice on VulnHub/HackTheBox retired machines
+
+**Ethical Boundaries:**
+Only use against systems you own or have explicit written authorization to test. Real penetration testers always have signed agreements before touching any system.
+
+**Learning Path:**
+1. Start with basic auxiliary scanners
+2. Practice with known vulnerabilities in lab VMs
+3. Learn payload generation for different scenarios
+4. Understand how to write custom modules
+
+Remember: We're defenders learning offensive techniques. The goal is understanding attack vectors to better protect systems.
+
+What specific Metasploit module or technique would you like to explore?`,
+
+    'wireshark': `*pulls up packet capture with methodical precision*
+
+Wireshark is like having X-ray vision into network traffic. Every packet tells a story - you just need to know how to read it.
+
+**Key Features:**
+- **Live Capture:** Monitor real-time network traffic
+- **Protocol Analysis:** Deep packet inspection
+- **Filtering:** Focus on specific traffic types
+- **Statistics:** Network performance metrics
+
+**Essential Filters:**
+\`tcp.port == 80\` - HTTP traffic
+\`ip.addr == 192.168.1.1\` - Specific IP
+\`dns\` - DNS queries only
+\`tcp.flags.syn == 1\` - TCP connection attempts
+
+**Security Analysis Techniques:**
+- Identify suspicious connections
+- Analyze malware communication
+- Detect data exfiltration
+- Monitor authentication traffic
+
+**Ethical Practice:**
+- Only capture traffic on networks you own/administer
+- Respect privacy - focus on security analysis
+- Use in controlled lab environments
+- Follow company policies for network monitoring
+
+**Lab Setup:**
+1. Create isolated VM network
+2. Generate different types of traffic
+3. Practice identifying normal vs suspicious patterns
+4. Learn to correlate with other security tools
+
+The key is understanding network protocols first. TCP/IP knowledge is essential before diving deep into packet analysis.
+
+What type of network traffic analysis interests you most?`,
+
+    'osint': `*steeples fingers thoughtfully while considering information gathering*
+
+OSINT - Open Source Intelligence. It's like being a digital detective, gathering information from publicly available sources. The art is in knowing where to look and how to connect the dots.
+
+**Primary Categories:**
+- **Social Media Intelligence:** Public profiles, posts, connections
+- **Search Engine Intelligence:** Cached pages, indexed documents
+- **Website Intelligence:** DNS records, certificates, technology stacks
+- **Image Intelligence:** Metadata, reverse searches, geolocation
+
+**Essential Tools:**
+- **Google Dorking:** Advanced search operators
+- **Shodan:** Internet-connected device search
+- **theHarvester:** Email and subdomain enumeration
+- **Maltego:** Link analysis and visualization
+- **SpiderFoot:** Automated OSINT framework
+
+**Advanced Techniques:**
+\`site:target.com filetype:pdf\` - Find PDFs on target domain
+\`inurl:admin site:target.com\` - Look for admin panels
+\`"index of" site:target.com\` - Directory listings
+
+**Ethical Boundaries:**
+- Only gather publicly available information
+- Respect privacy and terms of service
+- Don't use information for harassment or illegal purposes
+- Consider the impact on individuals
+
+**Professional Applications:**
+- Threat intelligence gathering
+- Brand protection monitoring
+- Security awareness training
+- Penetration testing reconnaissance
+
+**Privacy Protection:**
+Understanding OSINT helps you protect yourself - review your digital footprint, adjust privacy settings, minimize information leakage.
+
+Remember: Information is powerful. Use it responsibly and ethically.
+
+What aspect of OSINT would you like to explore further?`,
+
+    'privilege escalation': `*analyzes system architecture with systematic approach*
+
+Privilege escalation - the art of climbing the digital ladder from user to root. It's about understanding system weaknesses and configuration errors.
+
+**Types:**
+- **Vertical:** Low privilege to high privilege (user to admin)
+- **Horizontal:** Same privilege level but different user context
+
+**Common Vectors:**
+- **SUID/SGID binaries:** Files with elevated permissions
+- **Kernel exploits:** Operating system vulnerabilities
+- **Service misconfigurations:** Poorly configured services
+- **Credential harvesting:** Finding stored passwords
+- **Path hijacking:** Exploiting PATH environment variables
+
+**Linux Enumeration:**
+\`sudo -l\` - Check sudo permissions
+\`find / -perm -4000 2>/dev/null\` - Find SUID files
+\`cat /etc/passwd\` - Enumerate users
+\`ps aux\` - Running processes
+\`netstat -tulpn\` - Network connections
+
+**Windows Enumeration:**
+\`whoami /priv\` - Current privileges
+\`net user\` - User accounts
+\`systeminfo\` - System information
+\`tasklist\` - Running processes
+
+**Safe Learning:**
+- Use vulnerable VMs (Kioptrix, FristiLeaks)
+- Practice on HackTheBox/TryHackMe machines
+- Set up local privilege escalation labs
+- Study CVE databases for understanding
+
+**Defensive Perspective:**
+Understanding these techniques helps you:
+- Properly configure system permissions
+- Implement defense in depth
+- Monitor for suspicious activity
+- Apply security patches promptly
+
+The goal is learning to secure systems better, not to exploit them maliciously.
+
+What specific privilege escalation technique would you like to explore?`,
+
+    'social engineering': `*observes human behavior patterns with analytical detachment*
+
+Social engineering - the art of manipulating human psychology for information gathering. It's often the weakest link in security, but also the most critical to understand and defend against.
+
+**Core Principles:**
+- **Authority:** People comply with perceived authority figures
+- **Scarcity:** Creating urgency through limited time/resources
+- **Social Proof:** Following what others appear to be doing
+- **Reciprocity:** Feeling obligated to return favors
+- **Trust:** Exploiting established relationships
+
+**Common Techniques:**
+- **Phishing:** Fraudulent emails requesting information
+- **Vishing:** Voice-based social engineering attacks
+- **Pretexting:** Creating false scenarios to gather information
+- **Baiting:** Offering something enticing to trigger actions
+- **Tailgating:** Physical unauthorized access following authorized personnel
+
+**Educational Framework:**
+- Study psychology of influence (Cialdini's principles)
+- Analyze real-world social engineering cases
+- Practice in controlled awareness training scenarios
+- Understand cultural and contextual factors
+
+**Defensive Strategies:**
+- Security awareness training for all personnel
+- Verification procedures for sensitive requests
+- Multi-factor authentication implementation
+- Regular simulated phishing exercises
+- Clear incident reporting procedures
+
+**Ethical Boundaries:**
+- NEVER manipulate people for personal gain
+- Only practice in authorized training scenarios
+- Focus on defensive education and awareness
+- Respect privacy and psychological well-being
+- Always get proper authorization for security testing
+
+**Professional Applications:**
+- Security awareness program development
+- Authorized penetration testing social engineering assessments
+- Incident response and threat analysis
+- Training security teams on human factor risks
+
+Remember: The human element is both the weakest and strongest part of security. Education and awareness are our best defenses.
+
+What aspect of social engineering defense would you like to explore?`,
+
+    'default': `*adjusts position thoughtfully like Deke analyzing a complex problem*
+
+Interesting question. Let me break this down from a cybersecurity perspective:
 
 Based on your query, here are some key points to consider from a cybersecurity perspective:
 
@@ -423,12 +636,87 @@ Remember: Real cybersecurity professionals are defenders first. We learn offensi
 What specific area would you like to explore further? I can provide more targeted guidance.`
   }
   
-  // Simple keyword matching for demo purposes
+  // Enhanced keyword matching for comprehensive cybersecurity topics
   const lowerQuery = query.toLowerCase()
   
+  // Core tools
   if (lowerQuery.includes('nmap')) return responses.nmap
   if (lowerQuery.includes('burp')) return responses.burp
+  if (lowerQuery.includes('metasploit') || lowerQuery.includes('msf')) return responses.metasploit
+  if (lowerQuery.includes('wireshark')) return responses.wireshark
+  
+  // Techniques and concepts
   if (lowerQuery.includes('sql') && lowerQuery.includes('injection')) return responses['sql injection']
+  if (lowerQuery.includes('osint') || lowerQuery.includes('reconnaissance')) return responses.osint
+  if (lowerQuery.includes('privilege') && lowerQuery.includes('escalation')) return responses['privilege escalation']
+  if (lowerQuery.includes('social') && lowerQuery.includes('engineering')) return responses['social engineering']
+  
+  // Additional tool matches
+  if (lowerQuery.includes('nikto') || lowerQuery.includes('dirb') || lowerQuery.includes('gobuster')) {
+    return `*methodically configures web application scanner*
+
+Web application scanners - essential for finding hidden directories and vulnerabilities. Each tool has its strengths:
+
+**Nikto:** General web server scanner
+- Checks for outdated software versions
+- Identifies dangerous files and programs
+- Tests for server configuration issues
+
+**Dirb/Gobuster:** Directory and file brute forcing
+- Discovers hidden paths and files
+- Uses wordlists to find common directories
+- Essential for web app enumeration
+
+**Usage Examples:**
+\`nikto -h https://target.com\`
+\`gobuster dir -u https://target.com -w /wordlist.txt\`
+\`dirb https://target.com /usr/share/wordlists/dirb/common.txt\`
+
+**Safe Practice:**
+- Use only on systems you own or have permission to test
+- Start with DVWA, WebGoat, or similar vulnerable applications
+- Practice on local lab environments first
+
+Remember: These tools are for finding vulnerabilities to fix them, not to exploit systems maliciously.
+
+What specific aspect of web application testing interests you?`
+  }
+  
+  if (lowerQuery.includes('john') || lowerQuery.includes('hashcat') || lowerQuery.includes('password')) {
+    return `*analyzes password security with methodical precision*
+
+Password cracking tools - understanding these helps build better password policies and security measures.
+
+**John the Ripper:**
+- Multi-platform password cracker
+- Supports many hash formats
+- Excellent for password policy testing
+
+**Hashcat:**
+- GPU-accelerated password recovery
+- Extremely fast with proper hardware
+- Advanced attack modes and rules
+
+**Educational Usage:**
+\`john --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt\`
+\`hashcat -m 0 -a 0 hashes.txt wordlist.txt\`
+
+**Ethical Applications:**
+- Testing organizational password policies
+- Recovery of your own forgotten passwords
+- Security awareness demonstrations
+- Penetration testing with proper authorization
+
+**Defensive Insights:**
+- Implement strong password policies
+- Use multi-factor authentication
+- Regular password auditing
+- Employee security awareness training
+
+Understanding how passwords are cracked helps you defend against these attacks effectively.
+
+What aspect of password security would you like to explore further?`
+  }
   
   return responses.default
 }
